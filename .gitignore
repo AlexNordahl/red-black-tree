@@ -1,0 +1,10 @@
+# cache
+**/__pycache__/
+*.py[cod]
+
+# environment
+venv/
+.env/
+
+# editor
+.vscode/
