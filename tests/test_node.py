@@ -18,8 +18,8 @@ def test_str(empty_node, not_empty_node):
     assert str(not_empty_node) == "key=4 value=15 color=Black"
 
 def test_repr(empty_node, not_empty_node):
-    assert repr(empty_node) == "Node(1, 10, <NodeColor.BLACK: 'Black'>, None, None, None)"
-    assert repr(not_empty_node) == "Node(4, 15, <NodeColor.BLACK: 'Black'>, Node(2, 20, <NodeColor.RED: 'Red'>, None, None, None), Node(6, None, <NodeColor.RED: 'Red'>, None, None, None), None)"
+    assert repr(empty_node) == "Node(1, 10, <NodeColor.BLACK: 'Black'>)"
+    assert repr(not_empty_node) == "Node(4, 15, <NodeColor.BLACK: 'Black'>)"
 
 def test_eq(empty_node):
     assert empty_node == empty_node

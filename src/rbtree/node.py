@@ -17,7 +17,7 @@ class Node:
         return f"key={self.key} value={self.value} color={self.color.value}"
     
     def __repr__(self):
-        return f"Node({self.key!r}, {self.value!r}, {self.color!r}, {self.left!r}, {self.right!r}, {self.parent!r})"
+        return f"Node({self.key!r}, {self.value!r}, {self.color!r})"
     
     def __eq__(self, other):
         return self.key == other.key and self.value == other.value and self.color == other.color
