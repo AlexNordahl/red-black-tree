@@ -1,18 +1,13 @@
-from node import Node, NodeColor
+from .node import Node, NodeColor
 
 class RedBlackTree:
-    def __init__(self, key, value = None):
+    def __init__(self, key = None, value = None):
         self.NIL = Node(key=None, color=NodeColor.BLACK)
 
         self.root = Node(key=key, value=value, color=NodeColor.BLACK)
         self._nilify(self.root)
 
     def insert(self, key, value = None):
-        if self.root is self.NIL:
-            self.root = Node(key=key, value=value, color=NodeColor.BLACK)
-            self._nilify(self.root)
-            return
-
         node = Node(key=key, value=value, color=NodeColor.RED)
         self._nilify(node)
         
@@ -21,23 +16,57 @@ class RedBlackTree:
             if node.key < curr.key:
                 if curr.left is self.NIL:
                     curr.left = node
+                    node.parent = curr
                     self._nilify(curr.left)
                     break
                 curr = curr.left
             elif node.key > curr.key:
                 if curr.right is self.NIL:
                     curr.right = node
+                    node.parent = curr
                     self._nilify(curr.right)
                     break
                 curr = curr.right
 
-    def delete(self, key):
-        pass
+    def inorder(self, node):
+        res = []
+        if node:
+            res = self.inorder(node.left)
+            res.append(node)
+            res = res + self.inorder(node.right)
+        return res
 
     def search(self, key):
-        pass
+        curr = self.root
+        while curr is not self.NIL and key is not curr.key:
+            if key < curr.key:
+                curr = curr.left
+            elif key > curr.key:
+                curr = curr.right
+            
+        return curr
 
-    def contains(self, key):
+    def _left_rotate(self, node):
+        if node.right is self.NIL:
+            raise ValueError("cannot left rotate if node.right is NIL")
+
+        v = node.right
+        node.right = v.left
+
+        if v.left is not self.NIL:
+            v.left.parent = node
+
+        v.parent = node.parent
+        if node.parent is self.NIL:
+            self.root = v
+
+        elif node.parent.left is node:
+            node.parent.left = v
+        else:
+            node.parent.right = v
+        v.left, node.parent = node, v
+
+    def _right_rotate(self, node):
         pass
 
     def _nilify(self, node):
