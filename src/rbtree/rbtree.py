@@ -59,15 +59,32 @@ class RedBlackTree:
         v.parent = node.parent
         if node.parent is self.NIL:
             self.root = v
-
         elif node.parent.left is node:
             node.parent.left = v
         else:
             node.parent.right = v
+        
         v.left, node.parent = node, v
 
     def _right_rotate(self, node):
-        pass
+        if node.left is self.NIL:
+            raise ValueError("cannot right rotate if node.left is NIL")
+        
+        v = node.left
+        node.left = v.right
+
+        if v.right is not self.NIL:
+            v.right.parent = node
+
+        v.parent = node.parent
+        if node.parent is self.NIL:
+            self.root = v
+        elif node.parent.right is node:
+            node.parent.right = v
+        else:
+            node.parent.left = v
+        
+        v.right, node.parent = node, v
 
     def _nilify(self, node):
         if node.left is None: node.left = self.NIL
