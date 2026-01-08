@@ -1,32 +1,42 @@
 from .node import Node, NodeColor
 
 class RedBlackTree:
-    def __init__(self, key = None, value = None):
+    def __init__(self, key, value = None):
+        if key is None:
+            raise ValueError("root key cannot be None")
+        
         self.NIL = Node(key=None, color=NodeColor.BLACK)
 
         self.root = Node(key=key, value=value, color=NodeColor.BLACK)
         self._nilify(self.root)
 
-    def insert(self, key, value = None):
+    def insert(self, key, value=None):
         node = Node(key=key, value=value, color=NodeColor.RED)
         self._nilify(node)
-        
+
+        y = self.NIL
         curr = self.root
+
         while curr is not self.NIL:
+            y = curr
             if node.key < curr.key:
-                if curr.left is self.NIL:
-                    curr.left = node
-                    node.parent = curr
-                    self._nilify(curr.left)
-                    break
                 curr = curr.left
             elif node.key > curr.key:
-                if curr.right is self.NIL:
-                    curr.right = node
-                    node.parent = curr
-                    self._nilify(curr.right)
-                    break
                 curr = curr.right
+            else:
+                curr.value = value
+                return
+
+        node.parent = y
+        if y is self.NIL:
+            self.root = node
+        elif node.key < y.key:
+            y.left = node
+        else:
+            y.right = node
+
+        self._insert_fixup(node)
+
 
     def inorder(self, node):
         res = []
@@ -86,7 +96,47 @@ class RedBlackTree:
         
         v.right, node.parent = node, v
 
+    def _insert_fixup(self, node):
+        while node.parent.color is NodeColor.RED:
+            if node.parent is node.parent.parent.left:
+                y = node.parent.parent.right  # uncle
+                if y.color is NodeColor.RED:
+                    node.parent.color = NodeColor.BLACK
+                    y.color = NodeColor.BLACK
+                    node.parent.parent.color = NodeColor.RED
+                    node = node.parent.parent
+                else:
+                    if node is node.parent.right:
+                        node = node.parent
+                        self._left_rotate(node)
+                    node.parent.color = NodeColor.BLACK
+                    node.parent.parent.color = NodeColor.RED
+                    self._right_rotate(node.parent.parent)
+            else:
+                y = node.parent.parent.left
+                if y.color is NodeColor.RED:
+                    node.parent.color = NodeColor.BLACK
+                    y.color = NodeColor.BLACK
+                    node.parent.parent.color = NodeColor.RED
+                    node = node.parent.parent
+                else:
+                    if node is node.parent.left:
+                        node = node.parent
+                        self._right_rotate(node)
+                    node.parent.color = NodeColor.BLACK
+                    node.parent.parent.color = NodeColor.RED
+                    self._left_rotate(node.parent.parent)
+
+        self.root.color = NodeColor.BLACK
+        self.root.parent = self.NIL
+
     def _nilify(self, node):
         if node.left is None: node.left = self.NIL
         if node.right is None: node.right = self.NIL
         if node.parent is None: node.parent = self.NIL
+
+    def _root(self):
+        return self.root
+    
+    def _NIL(self):
+        return self.NIL

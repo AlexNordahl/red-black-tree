@@ -1,5 +1,4 @@
 import random
-
 from src.rbtree.rbtree import RedBlackTree
 from src.rbtree.node import NodeColor
 
