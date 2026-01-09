@@ -5,22 +5,21 @@ class NodeColor(Enum):
     BLACK = 'Black'
 
 class Node:
-    def __init__(self, key, value = None, color = NodeColor.RED):
+    def __init__(self, key, color = NodeColor.RED):
         self.key = key
-        self.value = value
         self.color = color
         self.left = None
         self.right = None
         self.parent = None
 
     def __str__(self):
-        return f"key={self.key} value={self.value} color={self.color.value}"
+        return f"key={self.key} color={self.color.value}"
     
     def __repr__(self):
-        return f"Node({self.key!r}, {self.value!r}, {self.color!r})"
+        return f"Node({self.key!r}, {self.color!r})"
     
     def __eq__(self, other):
-        return self.key == other.key and self.value == other.value and self.color == other.color
+        return self.key == other.key and self.color == other.color
     
     def __ne__(self, other):
         return not self == other

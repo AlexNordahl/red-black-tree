@@ -1,17 +1,23 @@
 from .node import Node, NodeColor
 
 class RedBlackTree:
-    def __init__(self, key, value = None):
-        if key is None:
-            raise ValueError("root key cannot be None")
-        
+    def __init__(self, key = None):
         self.NIL = Node(key=None, color=NodeColor.BLACK)
 
-        self.root = Node(key=key, value=value, color=NodeColor.BLACK)
-        self._nilify(self.root)
+        if key is not None:
+            self.root = Node(key=key, color=NodeColor.BLACK)
+            self._nilify(self.root)
+        else:
+            self.root = self.NIL
 
-    def insert(self, key, value=None):
-        node = Node(key=key, value=value, color=NodeColor.RED)
+    def insert(self, key):
+        node = self.NIL
+        if self.root is self.NIL:
+            node = Node(key=key, color=NodeColor.BLACK)
+            self.root = node
+        else:
+            node = Node(key=key, color=NodeColor.RED)
+
         self._nilify(node)
 
         y = self.NIL
@@ -24,7 +30,6 @@ class RedBlackTree:
             elif node.key > curr.key:
                 curr = curr.right
             else:
-                curr.value = value
                 return
 
         node.parent = y
@@ -36,7 +41,6 @@ class RedBlackTree:
             y.right = node
 
         self._insert_fixup(node)
-
 
     def inorder(self, node):
         res = []
@@ -55,6 +59,9 @@ class RedBlackTree:
                 curr = curr.right
             
         return curr
+    
+    def clear(self):
+        self.root = self.NIL
 
     def _left_rotate(self, node):
         if node.right is self.NIL:
@@ -99,10 +106,10 @@ class RedBlackTree:
     def _insert_fixup(self, node):
         while node.parent.color is NodeColor.RED:
             if node.parent is node.parent.parent.left:
-                y = node.parent.parent.right  # uncle
-                if y.color is NodeColor.RED:
+                uncle = node.parent.parent.right
+                if uncle.color is NodeColor.RED:
                     node.parent.color = NodeColor.BLACK
-                    y.color = NodeColor.BLACK
+                    uncle.color = NodeColor.BLACK
                     node.parent.parent.color = NodeColor.RED
                     node = node.parent.parent
                 else:
@@ -113,10 +120,10 @@ class RedBlackTree:
                     node.parent.parent.color = NodeColor.RED
                     self._right_rotate(node.parent.parent)
             else:
-                y = node.parent.parent.left
-                if y.color is NodeColor.RED:
+                uncle = node.parent.parent.left
+                if uncle.color is NodeColor.RED:
                     node.parent.color = NodeColor.BLACK
-                    y.color = NodeColor.BLACK
+                    uncle.color = NodeColor.BLACK
                     node.parent.parent.color = NodeColor.RED
                     node = node.parent.parent
                 else:

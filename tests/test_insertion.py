@@ -71,22 +71,19 @@ def assert_rb_invariants(t: RedBlackTree):
     _assert_parent_links_consistent(t)
 
 def test_init_sets_root_and_is_black():
-    t = RedBlackTree(10, "a")
+    t = RedBlackTree(10)
 
     assert t.root is not t.NIL
     assert t.root.key == 10
-    assert t.root.value == "a"
     assert t.root.color is NodeColor.BLACK
 
     assert_rb_invariants(t)
 
 def test_insert_second_element_keeps_bst_and_rb_properties():
-    t = RedBlackTree(10, "a")
-    t.insert(5, "b")
+    t = RedBlackTree(10)
+    t.insert(5)
 
     assert [n.key for n in _nodes_inorder_no_nil(t)] == [5, 10]
-    assert t.search(5).value == "b"
-    assert t.search(10).value == "a"
 
     assert_rb_invariants(t)
 
@@ -99,12 +96,11 @@ def test_insert_three_triggers_rebalance_cases_eventually():
     assert_rb_invariants(t)
 
 def test_insert_updates_value_on_duplicate_key():
-    t = RedBlackTree(7, "old")
-    t.insert(7, "new")
+    t = RedBlackTree(7)
+    t.insert(7)
 
     n = t.search(7)
     assert n is not t.NIL
-    assert n.value == "new"
     assert_rb_invariants(t)
 
 def test_search_missing_returns_nil():
@@ -116,13 +112,12 @@ def test_search_missing_returns_nil():
     assert_rb_invariants(t)
 
 def test_many_inserts_increasing_order():
-    t = RedBlackTree(1, 10)
+    t = RedBlackTree(1)
     for k in range(2, 51):
-        t.insert(k, k * 10)
+        t.insert(k)
 
     inorder_keys = [n.key for n in _nodes_inorder_no_nil(t)]
     assert inorder_keys == list(range(1, 51))
-    assert t.search(50).value == 500
 
     assert_rb_invariants(t)
 
@@ -141,15 +136,14 @@ def test_random_inserts_match_sorted_unique_keys():
     keys = [random.randint(1, 200) for _ in range(200)]
     unique = sorted(set(keys))
 
-    t = RedBlackTree(keys[0], f"v{keys[0]}")
+    t = RedBlackTree(keys[0])
     for k in keys[1:]:
-        t.insert(k, f"v{k}")
+        t.insert(k)
 
     inorder_keys = [n.key for n in _nodes_inorder_no_nil(t)]
     assert inorder_keys == unique
 
     for k in [unique[0], unique[len(unique)//2], unique[-1]]:
         assert t.search(k) is not t.NIL
-        assert t.search(k).value == f"v{k}"
 
     assert_rb_invariants(t)
