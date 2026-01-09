@@ -10,5 +10,5 @@ venv/
 .vscode/
 
 # files
-.*.png
-.*.svg
+/*.png
+/*.svg
