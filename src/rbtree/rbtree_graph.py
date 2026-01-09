@@ -29,7 +29,7 @@ class RBTreeGraph:
         self.dot.render(filename=fname, view=view, cleanup=cleanup)
 
     def _set_graph_style(self):
-        self.dot.attr(bgcolor="#FCF5E5", size="10,6", dpi="200")
+        self.dot.attr(bgcolor="#3F3F3F", size="10,6", dpi="200")
 
     def _set_node_style(self):
         self.dot.attr(
