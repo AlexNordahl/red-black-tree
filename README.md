@@ -7,17 +7,45 @@
 ## Table Of Contents
 
 1. Introduction
-2. Project Structure
+2. How to run
+3. Project Structure
 4. Used Libraries
 5. Classes
-6. Summary
+6. References
+7. Summary
 
 ## 1. Introduction
 
 Project is a classic implementation of a Red-Black Tree (self-balancing binary search tree).
 It provides the user with the ability to insert nodes at runtime, search values, and render the current structure of the tree using Graphviz.
 
-## 2. Project Structure
+Red black trees are binary search trees that are self-balancing.
+They use rotations like AVL trees but also keep track of coloring.
+RBTs properties:
+- 1. Every node is red or black
+- 2. The root node is black
+- 3. Every lead node (nil node) is black
+- 4. if node is red, both of it's children are black
+- 5. Starting from any node, all simple paths down to leaf nodes hold the same number of black nodes
+
+Height and operations complexity (n - number of nodes)
+- 1. Height is $O(\log n)$
+- 2. Search $O(\log n)$
+- 3. Insert $O(\log n)$
+- 4. Rotations $O(\log 1)$
+
+## 2. How to run
+
+Minimum required python versions: 3.6 (estimate by vermin)
+
+To run program:
+```
+pip install graphviz colorama
+
+python -m src.rbtree.main
+```
+
+## 3. Project Structure
 
 Example project layout:
 ```
@@ -42,13 +70,12 @@ Main script imports:
 - RBTreeGraph from rbtree_graph.py
 - CLI text helpers from prints.py
 
-## 3. Used Libraries
+## 4. Used Libraries
 Standard / internal modules
 
 - node.py provides:
 
     - Node – tree node structure (key, color, left/right/parent)
-
     - NodeColor – enum-like color values (RED, BLACK)
 
 External library
@@ -57,7 +84,10 @@ External library
 Used for rendering the tree into an image (png by default).
 RBTreeGraph builds nodes/edges and calls dot.render().
 
-## 4. Classes
+- colorama (from colorama import Fore, Style, init)
+Used for coloring terminal output, compatibility with other platforms and simplicity.
+
+## 5. Classes
 
 ### `Node`
 
@@ -127,7 +157,11 @@ Main methods:
 - `render()` – generates and displays the rendered tree
 - `clear()` – resets the internal Graphviz graph
 
-## 5. Summary
+## 6. References
+   Youtube video by Samuel Albanie
+   https://www.youtube.com/watch?v=t-oiZnplv7g
+
+## 7. Summary
 
 This project presents a complete implementation of a red-black tree with an interactive command-line interface and graphical visualization support.
 

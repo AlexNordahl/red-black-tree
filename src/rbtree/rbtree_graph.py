@@ -23,7 +23,8 @@ class RBTreeGraph:
 
     def clear(self):
         self.dot.clear()
-        self.__init__()
+        self._set_graph_style()
+        self._set_node_style()
 
     def render(self, fname="tmp_graph", view=True, cleanup=True):
         self.dot.render(filename=fname, view=view, cleanup=cleanup)
