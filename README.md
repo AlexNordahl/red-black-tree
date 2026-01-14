@@ -40,6 +40,10 @@ Minimum required python versions: 3.6 (estimate by vermin)
 
 To run program:
 ```
+create virtual environment (or no)
+
+sudo apt install xdg-utils // Required for graphviz
+
 pip install graphviz colorama
 
 python -m src.rbtree.main
